@@ -1,7 +1,35 @@
 import Image from "next/image";
+import OpenAI from "openai";
 
 export default function Home() {
-  console.log(process.env.NEXT_PUBLIC_CHATAPIKEY)
+  const openai = new OpenAI(
+    {
+      apiKey: process.env.NEXT_PUBLIC_CHATAPIKEY,
+    }
+  );
+  // console.log(process.env.NEXT_PUBLIC_CHATAPIKEY)
+  const openAIcall = async () => {
+
+    const completion = await openai.chat.completions.create({
+      messages: [
+        {
+          "role": "system",
+          "content": "Whenever a user provides a prompt, you will only respond with a category that best fits the question. These are your four options: Math, Life, History, Health."
+        },
+        {
+          "role": "user",
+          "content": "What is 2+2?"
+        }
+      ],
+      model: "gpt-3.5-turbo",
+      temperature: 0.7,
+      max_tokens: 64,
+      top_p: 1,
+    });
+
+    console.log(completion.choices[0].message.content);
+  }
+  openAIcall()
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
