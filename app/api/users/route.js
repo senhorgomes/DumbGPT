@@ -10,7 +10,10 @@ export async function GET(request) {
     }
   });
   await client.connect();
+  console.log("connected successfully")
     // Send a ping to confirm a successful connection
-    await client.db("admin").command({ ping: 1 });
-  return NextResponse.json({ message: "Hello from Next.js" }, { status: 200 }); 
+    const database = await client.db("users")
+    const collection = await database.collection("users")
+    const doc = await collection.findOne({"name":"Joe Montana"})
+  return NextResponse.json({ message: doc }, { status: 200 }); 
 };
