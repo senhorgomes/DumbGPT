@@ -10,7 +10,6 @@ export async function GET(request) {
     }
   });
   await client.connect();
-  console.log("connected successfully")
     // Send a ping to confirm a successful connection
     const database = await client.db("users")
     const collection = await database.collection("users")
